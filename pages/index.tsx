@@ -1,78 +1,129 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Tomorrow } from "next/font/google";
+import { useEffect, useState } from "react";
+import AnimateDigit from "../components/AnimateDigit";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const body = Inter({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
+const display = Tomorrow({
+  weight: "400",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const Landing = () => {
+  const eventName = "Jark-yao 144";
+  const targetTime = new Date("2026-02-20T21:00:00+07:00").getTime();
+  const [timeLeft, setTimeLeft] = useState({
+    info: {
+      difference: 0,
+    },
+    calculation: {
+      day: 0,
+      hour: 0,
+      minute: 0,
+      second: 0,
+    },
+  });
 
-export default function Home() {
+  useEffect(() => {
+    setInterval(() => {
+      const now = new Date().getTime();
+      const difference = targetTime - now;
+
+      const milliSecToSec = 1000 * 60;
+
+      setTimeLeft({
+        info: {
+          difference: difference,
+        },
+        calculation: {
+          day: Math.floor(difference / (milliSecToSec * 60 * 24)),
+          hour: Math.floor(
+            (difference % (milliSecToSec * 60 * 24)) / (milliSecToSec * 60)
+          ),
+          minute: Math.floor(
+            (difference % (milliSecToSec * 60)) / milliSecToSec
+          ),
+          second: Math.floor((difference % milliSecToSec) / 1000),
+        },
+      });
+    }, 1000);
+  }, []);
+
   return (
     <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
+      className={`${body.className} flex flex-col min-h-screen items-center 
+          justify-center font-sans text-zinc-900 dark:text-zinc-100
+          bg-zinc-200 dark:bg-zinc-900`}
     >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+      {/* Header (Title) */}
+      <p className={`fixed top-8 text-center opacity-50`}>{eventName}</p>
+      {/* Countdown */}
+      <div
+        className={`relative ${display.className} flex items-center flex-col sm:flex-row gap-0 sm:gap-6 -translate-y-0.5`}
+      >
+        {/* Number Fading Effect */}
+        <div
+          className="absolute top-0 w-full h-2.5 z-10 
+          bg-linear-to-t from-transparent to-zinc-200 dark:to-zinc-900"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div
+          className="absolute bottom-0 w-full h-2.5 z-10 
+          bg-linear-to-b from-transparent to-zinc-200 dark:to-zinc-900"
+        />
+
+        {/* Day Counter */}
+        <div className="flex text-6xl leading-none">
+          <span className="translate-y-0.5">T</span>
+          <span
+            className={
+              !(timeLeft.info.difference > 0) ? "" : "-translate-y-0.5"
+            }
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {!(timeLeft.info.difference > 0) ? "+" : "-"}
+          </span>
+          <AnimateDigit value={Math.floor(timeLeft.calculation.day / 100)} />
+          <AnimateDigit value={Math.floor(timeLeft.calculation.day / 100)} />
+          <AnimateDigit value={Math.floor(timeLeft.calculation.day % 10)} />
         </div>
-      </main>
+
+        {/* Time Counter */}
+        <div className="flex items-center text-6xl leading-none">
+          <AnimateDigit value={Math.floor(timeLeft.calculation.hour / 10)} />
+          <AnimateDigit value={timeLeft.calculation.hour % 10} />
+          <span className="-translate-y-1">:</span>
+          <AnimateDigit value={Math.floor(timeLeft.calculation.minute / 10)} />
+          <AnimateDigit value={timeLeft.calculation.minute % 10} />
+          <span className="-translate-y-1">:</span>
+          <AnimateDigit value={Math.floor(timeLeft.calculation.second / 10)} />
+          <AnimateDigit value={timeLeft.calculation.second % 10} />
+        </div>
+      </div>
+
+      {/* Footer (Description) */}
+      <div className={`flex flex-col fixed bottom-8 text-center`}>
+        {/* {timeLeft.info.difference < 0
+          ? "Counting up since "
+          : "Counting down until "}
+        <b className="font-semibold">{eventName}</b> */}
+        <p>
+          <b className="font-medium">
+            {Math.floor(
+              (1 -
+                (targetTime - new Date().getTime()) /
+                  (targetTime -
+                    new Date("2020-06-29T07:30:00+07:00").getTime())) *
+                10000
+            ) / 100}
+            %
+          </b>
+          <span className="opacity-50"> (29/06/2020 – 20/02/2026)</span>
+        </p>
+        <p className="opacity-50">Febuary 20, 2026 @ 9:00 PM ICT</p>
+      </div>
     </div>
   );
-}
+};
+
+export default Landing;
