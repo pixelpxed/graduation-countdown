@@ -122,16 +122,19 @@ const Landing = () => {
           <p>
             <b className="font-medium">
               {/* Get a 2-decimal percentage of time from M1-M6 completion. */}
-              {Math.floor(
-                (1 -
-                  (graduationTime - new Date().getTime()) /
-                    (graduationTime - enrolledTime)) *
-                  10000
-              ) / 100}
+              {(
+                Math.floor(
+                  (1 -
+                    (graduationTime - new Date().getTime()) /
+                      (graduationTime - enrolledTime)) *
+                    10000
+                ) / 100
+              ).toFixed(2)}
               %
             </b>
             <span className="opacity-50">
-              {" "}({getShortenedDateString(enrolledTime)} –{" "}
+              {" "}
+              ({getShortenedDateString(enrolledTime)} –{" "}
               {getShortenedDateString(graduationTime)})
             </span>
           </p>
