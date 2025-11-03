@@ -13,7 +13,7 @@ const display = Tomorrow({
 });
 
 const Landing = () => {
-  const eventName = "Jark-yao 144";
+  const eventName = "Jakyao 144";
   const enrolledTime = new Date("2020-06-29T07:30:00+07:00").getTime();
   const jarkyaoTime = new Date("2026-02-20T21:00:00+07:00").getTime();
   const [timeLeft, setTimeLeft] = useState({
@@ -57,6 +57,7 @@ const Landing = () => {
     <>
       <Head>
         <title>{eventName}</title>
+        <meta name="description" content={`A countdown until SK144's graduation. (${eventName})`} />
       </Head>
       <div
         className={`${body.className} flex flex-col min-h-screen items-center 
@@ -69,16 +70,6 @@ const Landing = () => {
         <div
           className={`relative ${display.className} flex items-center flex-col sm:flex-row gap-0 sm:gap-6 -translate-y-0.5`}
         >
-          {/* Number Fading Effect */}
-          {/* <div
-            className="absolute top-0 w-full h-2.5 z-10 
-          bg-linear-to-t from-transparent to-zinc-200 dark:to-zinc-900"
-          />
-          <div
-            className="absolute bottom-0 w-full h-2.5 z-10 
-          bg-linear-to-b from-transparent to-zinc-200 dark:to-zinc-900"
-          /> */}
-
           {/* Day Counter */}
           <div className="flex text-6xl leading-none">
             <span className="translate-y-0.5">T</span>
