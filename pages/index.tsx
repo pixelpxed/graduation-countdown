@@ -70,14 +70,14 @@ const Landing = () => {
           className={`relative ${display.className} flex items-center flex-col sm:flex-row gap-0 sm:gap-6 -translate-y-0.5`}
         >
           {/* Number Fading Effect */}
-          <div
+          {/* <div
             className="absolute top-0 w-full h-2.5 z-10 
           bg-linear-to-t from-transparent to-zinc-200 dark:to-zinc-900"
           />
           <div
             className="absolute bottom-0 w-full h-2.5 z-10 
           bg-linear-to-b from-transparent to-zinc-200 dark:to-zinc-900"
-          />
+          /> */}
 
           {/* Day Counter */}
           <div className="flex text-6xl leading-none">

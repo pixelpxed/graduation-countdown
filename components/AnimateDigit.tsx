@@ -1,6 +1,16 @@
 const AnimateDigit = ({ value }: { value: number }) => {
   return (
-    <div className={`h-17 overflow-hidden`}>
+    <div className={`relative h-17 overflow-hidden`}>
+      {/* Number Fading Effect */}
+      <div
+        className="absolute top-0 w-full h-2.5 z-10 
+          bg-linear-to-t from-transparent to-zinc-200 dark:to-zinc-900"
+      />
+      <div
+        className="absolute bottom-0 w-full h-2.5 z-10 
+          bg-linear-to-b from-transparent to-zinc-200 dark:to-zinc-900"
+      />
+
       <div
         className="flex flex-col transition-transform duration-800 ease-in-out text-center"
         // [0-9] * -10% : Diff. per digit / +2px : Gap for the fade effect.
