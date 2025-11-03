@@ -1,6 +1,7 @@
 import { Inter, Tomorrow } from "next/font/google";
 import { useEffect, useState } from "react";
 import AnimateDigit from "../components/AnimateDigit";
+import Head from "next/head";
 
 const body = Inter({
   weight: ["400", "700"],
@@ -53,8 +54,12 @@ const Landing = () => {
   }, []);
 
   return (
-    <div
-      className={`${body.className} flex flex-col min-h-screen items-center 
+    <>
+      <Head>
+        <title>{eventName}</title>
+      </Head>
+      <div
+        className={`${body.className} flex flex-col min-h-screen items-center 
           justify-center font-sans text-zinc-900 dark:text-zinc-100
           bg-zinc-200 dark:bg-zinc-900`}
       >
