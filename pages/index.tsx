@@ -2,6 +2,10 @@ import { Inter, Tomorrow } from "next/font/google";
 import { useEffect, useState } from "react";
 import AnimateDigit from "../components/AnimateDigit";
 import Head from "next/head";
+import {
+  getFullDateTimeStringWithLocale,
+  getShortenedDateString,
+} from "../components/DateTimeHelper";
 
 const body = Inter({
   weight: ["400", "700"],
@@ -13,9 +17,14 @@ const display = Tomorrow({
 });
 
 const Landing = () => {
-  const eventName = "Jakyao 144";
-  const enrolledTime = new Date("2020-06-29T07:30:00+07:00").getTime();
-  const jarkyaoTime = new Date("2026-02-20T21:00:00+07:00").getTime();
+  const eventName = process.env.NEXT_PUBLIC_EVENT_NAME;
+  const eventDescription = process.env.NEXT_PUBLIC_EVENT_DESCRIPTION;
+  const enrolledTime = new Date(
+    process.env.NEXT_PUBLIC_ENROLLED_TIME
+  ).getTime();
+  const graduationTime = new Date(
+    process.env.NEXT_PUBLIC_GRADUATION_TIME
+  ).getTime();
   const [timeLeft, setTimeLeft] = useState({
     info: {
       difference: 0,
@@ -31,7 +40,7 @@ const Landing = () => {
   useEffect(() => {
     setInterval(() => {
       const now = new Date().getTime();
-      const difference = jarkyaoTime - now;
+      const difference = graduationTime - now;
 
       const milliSecToSec = 1000 * 60;
 
@@ -57,7 +66,7 @@ const Landing = () => {
     <>
       <Head>
         <title>{eventName}</title>
-        <meta name="description" content={`A countdown until SK144's graduation. (${eventName})`} />
+        <meta name="description" content={eventDescription} />
       </Head>
       <div
         className={`${body.className} flex flex-col min-h-screen items-center 
@@ -115,15 +124,20 @@ const Landing = () => {
               {/* Get a 2-decimal percentage of time from M1-M6 completion. */}
               {Math.floor(
                 (1 -
-                  (jarkyaoTime - new Date().getTime()) /
-                    (jarkyaoTime - enrolledTime)) *
+                  (graduationTime - new Date().getTime()) /
+                    (graduationTime - enrolledTime)) *
                   10000
               ) / 100}
               %
             </b>
-            <span className="opacity-50"> (29/06/2020 – 20/02/2026)</span>
+            <span className="opacity-50">
+              {" "}({getShortenedDateString(enrolledTime)} –{" "}
+              {getShortenedDateString(graduationTime)})
+            </span>
           </p>
-          <p className="opacity-50">Febuary 20, 2026 @ 9:00 PM ICT</p>
+          <p className="opacity-50">
+            {getFullDateTimeStringWithLocale(graduationTime)}
+          </p>
         </div>
       </div>
     </>
