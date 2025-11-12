@@ -90,7 +90,12 @@ const Landing = () => {
               {!(timeLeft.info.difference > 0) ? "+" : "-"}
             </span>
             <AnimateDigit value={Math.floor(timeLeft.calculation.day / 100)} />
-            <AnimateDigit value={Math.floor(timeLeft.calculation.day / 100)} />
+            <AnimateDigit
+              value={
+                timeLeft.calculation.day -
+                Math.floor(timeLeft.calculation.day / 10) * 10
+              }
+            />
             <AnimateDigit value={Math.floor(timeLeft.calculation.day % 10)} />
           </div>
 
