@@ -10,6 +10,8 @@ Variables documentation:
   - Event name. Shown on title, and header in the page. (Format: **String**)
 - NEXT_PUBLIC_EVENT_DESCRIPTION
   - Event description. Shown on embeds description. (Format: **String**)
+- NEXT_PUBLIC_EVENT_PASSING_MESSAGE
+  - What to say when the time has passed. (Format: **String**)
 - NEXT_PUBLIC_ENROLLED_TIME
   - The first-day of something. Used to calculate/show details and percentage progress on the footer of the page. (Format: **ISO 8601** // Don't forget timezone!)
 - NEXT_PUBLIC_GRADUATION_TIME

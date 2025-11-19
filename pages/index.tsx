@@ -132,23 +132,29 @@ const Landing = () => {
             <b className="font-semibold">{eventName}</b>
           </p> */}
           <p>
-            <b className="font-medium">
-              {/* Get a 2-decimal percentage of time from M1-M6 completion. */}
-              {(
-                Math.floor(
-                  (1 -
-                    (graduationTime - new Date().getTime()) /
-                      (graduationTime - enrolledTime)) *
-                    10000
-                ) / 100
-              ).toFixed(2)}
-              %
-            </b>
-            <span className="opacity-50">
-              {" "}
-              ({getShortenedDateString(enrolledTime)} –{" "}
-              {getShortenedDateString(graduationTime)})
-            </span>
+            {timeLeft.info.difference > 0 ? (
+              <>
+                <b className="font-medium">
+                  {/* Get a 2-decimal percentage of time from M1-M6 completion. */}
+                  {(
+                    Math.floor(
+                      (1 -
+                        (graduationTime - new Date().getTime()) /
+                          (graduationTime - enrolledTime)) *
+                        10000
+                    ) / 100
+                  ).toFixed(2)}
+                  %
+                </b>
+                <span className="opacity-50">
+                  {" "}
+                  ({getShortenedDateString(enrolledTime)} –{" "}
+                  {getShortenedDateString(graduationTime)})
+                </span>
+              </>
+            ) : (
+              <span>{process.env.NEXT_PUBLIC_EVENT_PASSING_MESSAGE}</span>
+            )}
           </p>
           <p className="opacity-50">
             {getFullDateTimeStringWithLocale(graduationTime)}
