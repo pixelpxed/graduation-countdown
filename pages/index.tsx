@@ -132,7 +132,9 @@ const Landing = () => {
             <b className="font-semibold">{eventName}</b>
           </p> */}
           <p>
-            {timeLeft.info.difference > 0 ? (
+            {timeLeft.info.difference < 0 ? (
+              <span>{process.env.NEXT_PUBLIC_EVENT_PASSING_MESSAGE}</span>
+            ) : (
               <>
                 <b className="font-medium">
                   {/* Get a 2-decimal percentage of time from M1-M6 completion. */}
@@ -152,8 +154,6 @@ const Landing = () => {
                   {getShortenedDateString(graduationTime)})
                 </span>
               </>
-            ) : (
-              <span>{process.env.NEXT_PUBLIC_EVENT_PASSING_MESSAGE}</span>
             )}
           </p>
           <p className="opacity-50">
