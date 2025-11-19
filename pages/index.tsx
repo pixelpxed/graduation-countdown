@@ -1,7 +1,7 @@
 import { Inter, Tomorrow } from "next/font/google";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import AnimateDigit from "../components/AnimateDigit";
-import Head from "next/head";
 import {
   getFullDateTimeStringWithLocale,
   getShortenedDateString,
@@ -44,23 +44,30 @@ const Landing = () => {
 
       const milliSecToSec = 1000 * 60;
 
+      const pastCorrection = difference > 0 ? 0 : 1;
+
       setTimeLeft({
         info: {
           difference: difference,
         },
         calculation: {
-          day: Math.floor(difference / (milliSecToSec * 60 * 24)),
-          hour: Math.floor(
-            (difference % (milliSecToSec * 60 * 24)) / (milliSecToSec * 60)
-          ),
-          minute: Math.floor(
-            (difference % (milliSecToSec * 60)) / milliSecToSec
-          ),
-          second: Math.floor((difference % milliSecToSec) / 1000),
+          day:
+            Math.floor(difference / (milliSecToSec * 60 * 24)) + pastCorrection,
+          hour:
+            Math.floor(
+              (difference % (milliSecToSec * 60 * 24)) / (milliSecToSec * 60)
+            ) + pastCorrection,
+          minute:
+            Math.floor((difference % (milliSecToSec * 60)) / milliSecToSec) +
+            pastCorrection,
+          second:
+            Math.floor((difference % milliSecToSec) / 1000) + pastCorrection,
         },
       });
     }, 1000);
   }, []);
+
+  console.log(timeLeft);
 
   return (
     <>
@@ -89,30 +96,30 @@ const Landing = () => {
             >
               {!(timeLeft.info.difference > 0) ? "+" : "-"}
             </span>
-            <AnimateDigit value={Math.floor(timeLeft.calculation.day / 100)} />
-            <AnimateDigit
-              value={
-                timeLeft.calculation.day -
-                Math.floor(timeLeft.calculation.day / 10) * 10
-              }
-            />
-            <AnimateDigit value={Math.floor(timeLeft.calculation.day % 10)} />
+
+            {String(Math.abs(timeLeft.calculation.day))
+              .split("")
+              .map((i, _id) => {
+                return <AnimateDigit key={_id} value={Number(i)} />;
+              })}
           </div>
 
           {/* Time Counter */}
           <div className="flex items-center text-6xl leading-none">
-            <AnimateDigit value={Math.floor(timeLeft.calculation.hour / 10)} />
-            <AnimateDigit value={timeLeft.calculation.hour % 10} />
+            <AnimateDigit
+              value={Math.floor(Math.abs(timeLeft.calculation.hour / 10))}
+            />
+            <AnimateDigit value={Math.abs(timeLeft.calculation.hour % 10)} />
             <span className="-translate-y-1">:</span>
             <AnimateDigit
-              value={Math.floor(timeLeft.calculation.minute / 10)}
+              value={Math.floor(Math.abs(timeLeft.calculation.minute / 10))}
             />
-            <AnimateDigit value={timeLeft.calculation.minute % 10} />
+            <AnimateDigit value={Math.abs(timeLeft.calculation.minute % 10)} />
             <span className="-translate-y-1">:</span>
             <AnimateDigit
-              value={Math.floor(timeLeft.calculation.second / 10)}
+              value={Math.floor(Math.abs(timeLeft.calculation.second / 10))}
             />
-            <AnimateDigit value={timeLeft.calculation.second % 10} />
+            <AnimateDigit value={Math.abs(timeLeft.calculation.second % 10)} />
           </div>
         </div>
 
