@@ -67,13 +67,12 @@ const Landing = () => {
     }, 1000);
   }, []);
 
-  console.log(timeLeft);
-
   return (
     <>
       <Head>
         <title>{eventName}</title>
         <meta name="description" content={eventDescription} />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <div
         className={`${body.className} flex flex-col min-h-screen items-center 
